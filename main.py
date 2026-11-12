@@ -53,9 +53,9 @@ def norm_cdf(x):
 
 
 def load_history():
-    task = json.load(open(os.path.join(INPUT_DIR, "task.json")))
+    task = json.load(open(os.path.join(INPUT_DIR, "task.json"), encoding="utf-8"))
     snaps = []
-    with open(os.path.join(INPUT_DIR, "history.ndjson")) as f:
+    with open(os.path.join(INPUT_DIR, "history.ndjson"), encoding="utf-8") as f:
         for line in f:
             line = line.strip()
             if line:
@@ -257,7 +257,7 @@ def main():
 
     out = {"probabilities": probabilities, "top10": top10}
     os.makedirs(OUTPUT_DIR, exist_ok=True)
-    with open(os.path.join(OUTPUT_DIR, task.get("output", "forecast.json")), "w") as f:
+    with open(os.path.join(OUTPUT_DIR, task.get("output", "forecast.json")), "w", encoding="utf-8") as f:
         json.dump(out, f)
         f.write("\n")
 
