@@ -39,7 +39,13 @@ MAX_ROWS_PER_PLACE = 100
 
 
 def parse_time(s):
-    return datetime.fromisoformat(s.replace("Z", "+00:00"))
+dt = datetime.fromisoformat(s.replace("Z", "+00:00"))
+    # Robustness: a timestamp without timezone info would crash the run
+    # later (aware - naive subtraction raises TypeError), zeroing the whole
+    # entry. House reads always carry Z, but assume UTC if one ever lacks it.
+    if dt.tzinfo is None:
+              dt = dt.replace(tzinfo=timezone.utc)
+          return dt
 
 
 def norm_cdf(x):
